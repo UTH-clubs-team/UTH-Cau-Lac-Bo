@@ -8,7 +8,7 @@ window.addEventListener("DOMContentLoaded", function () {
   setInterval(() => {
     checkSession().then((data) => {
       if (!data && currentSection === 'dashboard') {
-        showNotification('Session expired. Please login again.', 'error');
+        showNotification('Phiên đã hết hạn. Vui lòng đăng nhập lại.', 'error');
         showSection('home');
       }
     });
@@ -73,7 +73,7 @@ function handleLogin(event) {
   const email = document.getElementById("loginEmail").value;
 
   if (!email.endsWith("@ut.edu.vn")) {
-    showNotification("Email must be @ut.edu.vn domain!", "error");
+  showNotification("Email phải thuộc miền @ut.edu.vn!", "error");
     return;
   }
 
@@ -95,7 +95,7 @@ function handleLogin(event) {
         currentUser = data.user;
         updateAuthUI();
         closeModal("loginModal");
-        showNotification("Login successful!", "success");
+  showNotification("Đăng nhập thành công!", "success");
 
         try {
           showSection("dashboard");
@@ -104,12 +104,12 @@ function handleLogin(event) {
           console.error("Section error:", sectionError);
         }
       } else {
-        showNotification(data.message || "Login failed", "error");
+  showNotification(data.message || "Đăng nhập thất bại", "error");
       }
     })
     .catch((error) => {
-      console.error("Login error:", error);
-      showNotification("Login failed!", "error");
+  console.error("Login error:", error);
+  showNotification("Đăng nhập thất bại!", "error");
     });
 }
 
@@ -123,12 +123,12 @@ function handleRegister(event) {
   ).value;
 
   if (!email.endsWith("@ut.edu.vn")) {
-    showNotification("Email must be @ut.edu.vn domain!", "error");
+  showNotification("Email phải thuộc miền @ut.edu.vn!", "error");
     return;
   }
 
   if (password !== confirmPassword) {
-    showNotification("Passwords do not match!", "error");
+  showNotification("Mật khẩu không khớp!", "error");
     return;
   }
 
@@ -151,13 +151,13 @@ function handleRegister(event) {
         currentUser = data.user;
         updateAuthUI();
         closeModal("registerModal");
-        showNotification("Registration successful!", "success");
+  showNotification("Đăng ký thành công!", "success");
       } else {
         showNotification(data.message, "error");
       }
     })
     .catch((error) => {
-      showNotification("Registration failed!", "error");
+  showNotification("Đăng ký thất bại!", "error");
     });
 }
 
@@ -168,6 +168,6 @@ function logout() {
       currentUser = null;
       updateAuthUI();
       showSection("home");
-      showNotification("Logged out successfully!", "success");
+  showNotification("Đăng xuất thành công!", "success");
     });
 }

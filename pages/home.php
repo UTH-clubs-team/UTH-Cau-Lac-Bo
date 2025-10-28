@@ -1,57 +1,52 @@
 <?php
-// Featured: show 3 most recent events (representative, no date filtering)
-try {
-    $userId = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 0;
-    $upStmt = $pdo->prepare("SELECT e.id, e.name, e.date, e.location, e.max_participants, e.event_image,
-                                  c.name AS club_name,
-                                  (e.max_participants - (SELECT COUNT(*) FROM event_registrations er WHERE er.event_id = e.id)) AS seats_left,
-                                  (SELECT COUNT(*) FROM event_registrations er WHERE er.event_id = e.id AND er.user_id = ?) AS is_registered
-                           FROM events e
-                           LEFT JOIN clubs c ON c.id = e.club_id
-                           ORDER BY e.date DESC
-                           LIMIT 3");
-    $upStmt->execute([$userId]);
-    $upcoming = $upStmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (Exception $e) {
-    $upcoming = [];
-}
-// Featured clubs (top 3 by members)
-try {
-    $fcStmt = $pdo->query("SELECT c.id, c.name, c.description, c.category, c.schedule_meeting,
-                                  (SELECT COUNT(*) FROM club_members cm WHERE cm.club_id = c.id) AS member_count,
-                                  u.name AS leader_name
-                           FROM clubs c
-                           LEFT JOIN users u ON u.id = c.leader_id
-                           ORDER BY member_count DESC
-                           LIMIT 3");
-    $featuredClubs = $fcStmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (Exception $e) {
-    $featuredClubs = [];
-}
+// Include mock data file that contains $upcoming and $featuredClubs arrays
+include_once __DIR__ . '/../config/mock_data.php';
 ?>
 <!-- Home Section -->
 <div id="home" class="section<?php echo ($activeSection === 'home') ? ' active' : ''; ?>">
     <div class="hero">
-        <h1>Welcome to UTH Clubs</h1>
-        <p>Discover clubs, join events, and connect with your university community</p>
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-            <a href="#" class="btn btn-primary" onclick="showSection('clubs'); return false;">Explore Clubs</a>
-            <a href="#" class="btn btn-secondary" onclick="showSection('events'); return false;">View Events</a>
+        <h1>Chào mừng đến với UTH Clubs</h1>
+        <p>Khám phá câu lạc bộ, tham gia sự kiện và kết nối với cộng đồng sinh viên</p>
+        <div class="hero-buttons">
+            <a href="#" class="btn btn-primary" onclick="showSection('clubs'); return false;">Khám Phá CLB</a>
+            <a href="#" class="btn btn-secondary" onclick="showSection('events'); return false;">Xem Sự Kiện</a>
+        </div>
+    </div>
+    
+    <div class="features-section">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Phát Triển Bản Thân</h3>
+                    <p>Tham gia các CLB để phát triển kỹ năng và đam mê của bạn</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Kết Nối</h3>
+                    <p>Gặp gỡ những người bạn mới và mở rộng mạng lưới của bạn</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎉</div>
+                    <h3>Sự Kiện Hấp Dẫn</h3>
+                    <p>Tham gia các sự kiện thú vị và ý nghĩa</p>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="container">
-        <h2 style="text-align: center; margin-bottom: 2rem; color: #1f2937;">Featured Events</h2>
+        <h2 class="section-title">Sự Kiện Nổi Bật</h2>
         <div class="card-grid" id="upcomingEvents">
             <?php foreach ($upcoming as $ev): ?>
-            <div class="card">
+            <div class="card event-card">
                 <div class="card-header">
                     <div style="display:flex; gap:1rem; align-items:center;">
                         <?php if (!empty($ev['event_image'])): ?>
                             <?php $imgFile = basename($ev['event_image']); ?>
                             <img src="uploads/events/<?php echo htmlspecialchars($imgFile); ?>" alt="<?php echo htmlspecialchars($ev['name']); ?>" style="width:72px; height:56px; object-fit:cover; border-radius:6px; cursor:pointer;" onclick="showImageModal('uploads/events/<?php echo htmlspecialchars($imgFile); ?>','<?php echo htmlspecialchars($ev['name']); ?>')">
                         <?php else: ?>
-                            <div style="width:72px; height:56px; background:#f3f4f6; display:flex; align-items:center; justify-content:center; border-radius:6px; color:#6b7280;">No image</div>
+                            <div style="width:72px; height:56px; background:#f3f4f6; display:flex; align-items:center; justify-content:center; border-radius:6px; color:#6b7280;">Chưa có ảnh</div>
                         <?php endif; ?>
                         <div>
                             <div class="card-title"><?php echo htmlspecialchars($ev['name']); ?></div>
@@ -60,29 +55,43 @@ try {
                     </div>
                 </div>
                 <div class="card-content">
-                    <p><strong>📅 Date:</strong> <?php echo htmlspecialchars($ev['date']); ?></p>
-                    <p><strong>📍 Location:</strong> <?php echo htmlspecialchars($ev['location']); ?></p>
-                    <p><strong>👥 Available Seats:</strong> <span class="seats-available"><?php echo max(0, (int)$ev['seats_left']); ?></span>/<?php echo (int)$ev['max_participants']; ?></p>
+                    <p><strong>📅 Ngày:</strong> <?php echo htmlspecialchars($ev['date']); ?></p>
+                    <p><strong>📍 Địa điểm:</strong> <?php echo htmlspecialchars($ev['location']); ?></p>
+                    <p><strong>👥 Số chỗ còn lại:</strong> <span class="seats-available"><?php echo max(0, (int)$ev['seats_left']); ?></span>/<?php echo (int)$ev['max_participants']; ?></p>
                     <?php if ((int)$ev['is_registered'] > 0): ?>
-                        <button class="btn btn-secondary" disabled>Already Registered</button>
+                        <button class="btn btn-secondary" disabled>Đã Đăng Ký</button>
                     <?php elseif ((int)$ev['seats_left'] <= 0): ?>
-                        <button class="btn btn-secondary" disabled>Event Full</button>
+                        <button class="btn btn-secondary" disabled>Đã Đủ Chỗ</button>
                     <?php else: ?>
-                        <button class="btn btn-primary" onclick="registerForEvent(<?php echo (int)$ev['id']; ?>)">Register Now</button>
+                        <button class="btn btn-primary" onclick="registerForEvent(<?php echo (int)$ev['id']; ?>)">Đăng Ký Ngay</button>
                     <?php endif; ?>
                 </div>
             </div>
             <?php endforeach; ?>
             <?php if (empty($upcoming)): ?>
-            <div>No events to show.</div>
+            <div class="no-content">Chưa có sự kiện nào.</div>
             <?php endif; ?>
         </div>
 
-        <h2 style="text-align: center; margin-bottom: 2rem; color: #1f2937;">Featured Clubs</h2>
+        <h2 class="section-title">Câu Lạc Bộ Nổi Bật</h2>
         <div class="card-grid">
             <?php foreach ($featuredClubs as $fc): ?>
             <?php
-                $category = htmlspecialchars($fc['category'] ?: '');
+                // Translate category labels for featured clubs
+                $catMap = [
+                    'Technology' => 'Công nghệ',
+                    'Arts' => 'Nghệ thuật',
+                    'Music' => 'Âm nhạc',
+                    'Science' => 'Khoa học',
+                    'Sports' => 'Thể thao',
+                    'Business' => 'Kinh doanh',
+                    'Engineering' => 'Kỹ thuật',
+                    'Design' => 'Thiết kế',
+                    'Humanities' => 'Nhân văn'
+                ];
+                $rawCategory = $fc['category'] ?? '';
+                $displayCategory = $rawCategory ? ($catMap[$rawCategory] ?? ucfirst($rawCategory)) : '';
+                $category = htmlspecialchars($displayCategory);
                 $schedule = htmlspecialchars($fc['schedule_meeting'] ?: '');
                 $desc = trim($fc['description']);
                 $desc = $desc ? htmlspecialchars(mb_strimwidth($desc, 0, 160, '...')) : '';
@@ -94,27 +103,35 @@ try {
                         <?php if ($category): ?>
                         <span class="badge badge-warning"><?php echo ucfirst($category); ?></span>
                         <?php endif; ?>
-                        <span class="badge badge-info"><?php echo (int)$fc['member_count']; ?> Members</span>
+                        <span class="badge badge-info"><?php echo (int)$fc['member_count']; ?> Thành viên</span>
                     </div>
                 </div>
                 <div class="card-content">
-                    <p><strong>Leader:</strong> <?php echo htmlspecialchars($fc['leader_name'] ?: 'N/A'); ?></p>
+                    <p><strong>Trưởng CLB:</strong> <?php echo htmlspecialchars($fc['leader_name'] ?: 'N/A'); ?></p>
                     <?php if ($schedule): ?>
-                    <p><strong>Schedule:</strong> <?php echo $schedule; ?></p>
+                    <p><strong>Lịch họp:</strong> <?php echo $schedule; ?></p>
                     <?php endif; ?>
                     <?php if ($desc): ?>
                     <p><?php echo $desc; ?></p>
                     <?php endif; ?>
                     <div style="display:flex; gap:.5rem; flex-wrap:wrap;">
-                        <button class="btn btn-success" onclick="joinClub(<?php echo (int)$fc['id']; ?>)">Join Club</button>
-                        <a class="btn btn-secondary" href="?section=clubDetails&club_id=<?php echo (int)$fc['id']; ?>">View Details</a>
+                        <button class="btn btn-success" onclick="joinClub(<?php echo (int)$fc['id']; ?>)">Tham Gia CLB</button>
+                        <a class="btn btn-secondary" href="?section=clubDetails&club_id=<?php echo (int)$fc['id']; ?>">Xem Chi Tiết</a>
                     </div>
                 </div>
             </div>
             <?php endforeach; ?>
             <?php if (empty($featuredClubs)): ?>
-            <div>No clubs to show.</div>
+            <div class="no-content">Chưa có câu lạc bộ nào.</div>
             <?php endif; ?>
+        </div>
+        
+        <div class="cta-section">
+            <div class="cta-content">
+                <h2>Bạn Muốn Tạo Câu Lạc Bộ Mới?</h2>
+                <p>Hãy chia sẻ đam mê và tập hợp những người bạn cùng chí hướng</p>
+                <a href="?section=dashboard" class="btn btn-primary">Bắt Đầu Ngay</a>
+            </div>
         </div>
     </div>
 </div>

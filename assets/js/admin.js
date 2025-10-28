@@ -41,7 +41,7 @@ function showAddClubModal() {
       if (d.success) {
         const select = document.getElementById("clubLeader");
         select.innerHTML =
-          '<option value="">Select Leader (Optional)</option>' +
+          '<option value="">Chọn Trưởng (Tùy chọn)</option>' +
           d.data
             .map(
               (user) =>
@@ -62,7 +62,7 @@ function showAddEventModal() {
         const select = document.getElementById("addEventClub");
         if (select) {
           select.innerHTML =
-            '<option value="">Select Club</option>' +
+            '<option value="">Chọn CLB</option>' +
             d.data
               .map((club) => `<option value="${club.id}">${club.name}</option>`)
               .join("");
@@ -70,16 +70,16 @@ function showAddEventModal() {
       } else {
         const select = document.getElementById("addEventClub");
         if (select)
-          select.innerHTML = '<option value="">No clubs available</option>';
+          select.innerHTML = '<option value="">Không có CLB</option>';
         if (typeof showNotification === "function")
-          showNotification(d.message || "No clubs available", "error");
+          showNotification(d.message || "Không có CLB", "error");
       }
     })
     .catch((err) => {
       console.error("Failed to load clubs for event modal:", err);
       const select = document.getElementById("addEventClub");
       if (select)
-        select.innerHTML = '<option value="">No clubs available</option>';
+        select.innerHTML = '<option value="">Không có CLB</option>';
       if (typeof showNotification === "function")
         showNotification("Failed to load clubs", "error");
     });
@@ -111,15 +111,15 @@ function handleAddEvent(event) {
     .then((r) => r.json())
     .then((d) => {
       if (d.success) {
-        showNotification("Event added successfully!", "success");
+        showNotification("Thêm sự kiện thành công!", "success");
         closeModal("addEventModal");
         event.target.reset();
         loadEvents();
       } else {
-        showNotification(d.message || "Failed to add event", "error");
+        showNotification(d.message || "Thêm sự kiện thất bại", "error");
       }
     })
-    .catch(() => showNotification("Failed to add event", "error"));
+    .catch(() => showNotification("Thêm sự kiện thất bại", "error"));
 }
 
 function handleAddClub(event) {
@@ -154,15 +154,15 @@ function handleAddClub(event) {
     .then((r) => r.json())
     .then((d) => {
       if (d.success) {
-        showNotification("Club added successfully!", "success");
+        showNotification("Thêm CLB thành công!", "success");
         closeModal("addClubModal");
         event.target.reset();
         loadClubs();
       } else {
-        showNotification(d.message || "Failed to add club", "error");
+        showNotification(d.message || "Thêm CLB thất bại", "error");
       }
     })
-    .catch(() => showNotification("Failed to add club", "error"));
+    .catch(() => showNotification("Thêm CLB thất bại", "error"));
 }
 
 function editClub(clubId) {
@@ -176,7 +176,7 @@ function editClub(clubId) {
       if (d.success) {
         const select = document.getElementById("editClubLeader");
         select.innerHTML =
-          '<option value="">Select Leader (Optional)</option>' +
+          '<option value="">Chọn Trưởng (Tùy chọn)</option>' +
           d.data
             .map(
               (user) =>
@@ -247,18 +247,18 @@ function handleEditClub(event) {
     .then((r) => r.json())
     .then((d) => {
       if (d.success) {
-        showNotification("Club updated successfully!", "success");
+        showNotification("Cập nhật CLB thành công!", "success");
         closeModal("editClubModal");
         loadClubs();
       } else {
-        showNotification(d.message || "Update failed", "error");
+        showNotification(d.message || "Cập nhật thất bại", "error");
       }
     })
-    .catch(() => showNotification("Update failed", "error"));
+    .catch(() => showNotification("Cập nhật thất bại", "error"));
 }
 
 function deleteClub(clubId) {
-  if (confirm("Are you sure you want to delete this club?")) {
+  if (confirm("Bạn có chắc muốn xóa CLB này?")) {
     const fd = new FormData();
     fd.append("action", "delete");
     fd.append("id", clubId);
@@ -266,13 +266,13 @@ function deleteClub(clubId) {
       .then((r) => r.json())
       .then((d) => {
         if (d.success) {
-          showNotification("Club deleted successfully!", "success");
+          showNotification("Xóa CLB thành công!", "success");
           loadClubs();
         } else {
-          showNotification(d.message || "Delete failed", "error");
+          showNotification(d.message || "Xóa thất bại", "error");
         }
       })
-      .catch(() => showNotification("Delete failed", "error"));
+      .catch(() => showNotification("Xóa thất bại", "error"));
   }
 }
 
@@ -289,7 +289,7 @@ function editEvent(eventId) {
       if (d.success) {
         const select = document.getElementById("editEventClub");
         select.innerHTML =
-          '<option value="">Select Club</option>' +
+          '<option value="">Chọn CLB</option>' +
           d.data
             .map((club) => `<option value="${club.id}">${club.name}</option>`)
             .join("");
@@ -345,18 +345,18 @@ function handleEditEvent(event) {
     .then((r) => r.json())
     .then((d) => {
       if (d.success) {
-        showNotification("Event updated successfully!", "success");
+        showNotification("Cập nhật sự kiện thành công!", "success");
         closeModal("editEventModal");
         loadEvents();
       } else {
-        showNotification(d.message || "Update failed", "error");
+        showNotification(d.message || "Cập nhật thất bại", "error");
       }
     })
-    .catch(() => showNotification("Update failed", "error"));
+    .catch(() => showNotification("Cập nhật thất bại", "error"));
 }
 
 function deleteEvent(eventId) {
-  if (confirm("Are you sure you want to delete this event?")) {
+  if (confirm("Bạn có chắc muốn xóa sự kiện này?")) {
     const fd = new FormData();
     fd.append("action", "delete");
     fd.append("id", eventId);
@@ -364,13 +364,13 @@ function deleteEvent(eventId) {
       .then((r) => r.json())
       .then((d) => {
         if (d.success) {
-          showNotification("Event deleted successfully!", "success");
+          showNotification("Xóa sự kiện thành công!", "success");
           loadEvents();
         } else {
-          showNotification(d.message || "Delete failed", "error");
+          showNotification(d.message || "Xóa thất bại", "error");
         }
       })
-      .catch(() => showNotification("Delete failed", "error"));
+      .catch(() => showNotification("Xóa thất bại", "error"));
   }
 }
 
@@ -392,15 +392,15 @@ function handleAddUser(e) {
     .then((r) => r.json())
     .then((d) => {
       if (d.success) {
-        showNotification("User added!", "success");
+        showNotification("Thêm người dùng thành công!", "success");
         closeModal("addUserModal");
         e.target.reset();
         loadUsers();
       } else {
-        showNotification(d.message || "Add user failed", "error");
+        showNotification(d.message || "Thêm người dùng thất bại", "error");
       }
     })
-    .catch(() => showNotification("Add user failed", "error"));
+    .catch(() => showNotification("Thêm người dùng thất bại", "error"));
 }
 function editUser(id) {
   const row = document.querySelector(`#usersTableBody tr[data-id="${id}"]`);
@@ -441,31 +441,31 @@ function handleEditUser(event) {
     .then((r) => r.json())
     .then((d) => {
       if (d.success) {
-        showNotification("User updated successfully!", "success");
+        showNotification("Cập nhật người dùng thành công!", "success");
         closeModal("editUserModal");
         loadUsers();
       } else {
-        showNotification(d.message || "Update failed", "error");
+        showNotification(d.message || "Cập nhật thất bại", "error");
       }
     })
-    .catch(() => showNotification("Update failed", "error"));
+    .catch(() => showNotification("Cập nhật thất bại", "error"));
 }
 function deleteUser(id) {
-  if (!confirm("Delete this user?")) return;
+  if (!confirm("Bạn có chắc muốn xóa người dùng này?")) return;
   const fd = new FormData();
   fd.append("action", "delete");
   fd.append("id", id);
   fetch("actions/admin/users.php", { method: "POST", body: fd })
     .then((r) => r.json())
     .then((d) => {
-      if (d.success) {
-        showNotification("User deleted!", "success");
+        if (d.success) {
+        showNotification("Xóa người dùng thành công!", "success");
         loadUsers();
       } else {
-        showNotification(d.message || "Delete failed", "error");
+        showNotification(d.message || "Xóa thất bại", "error");
       }
     })
-    .catch(() => showNotification("Delete failed", "error"));
+    .catch(() => showNotification("Xóa thất bại", "error"));
 }
 
 function loadRequests() {
@@ -486,14 +486,14 @@ function loadRequests() {
             <td>${req.user_name}<br><small>${req.email}</small></td>
             <td>${req.club_name}</td>
             <td>${new Date(req.joined_date).toLocaleDateString()}</td>
-            <td><span class="badge badge-warning">Pending</span></td>
+            <td><span class="badge badge-warning">Đang chờ</span></td>
             <td>
               <button class="btn btn-success" onclick="approveRequest(${
                 req.id
-              })">Approve</button>
+              })">Phê duyệt</button>
               <button class="btn btn-danger" onclick="rejectRequest(${
                 req.id
-              })">Reject</button>
+              })">Từ chối</button>
             </td>
           </tr>
         `
@@ -512,17 +512,17 @@ function approveRequest(id) {
     .then((r) => r.json())
     .then((d) => {
       if (d.success) {
-        showNotification("Request approved!", "success");
+        showNotification("Đã phê duyệt yêu cầu!", "success");
         loadRequests();
       } else {
-        showNotification(d.message || "Approve failed", "error");
+        showNotification(d.message || "Phê duyệt thất bại", "error");
       }
     })
-    .catch(() => showNotification("Approve failed", "error"));
+    .catch(() => showNotification("Phê duyệt thất bại", "error"));
 }
 
 function rejectRequest(id) {
-  if (!confirm("Are you sure you want to reject this request?")) return;
+  if (!confirm("Bạn có chắc muốn từ chối yêu cầu này?")) return;
   const fd = new FormData();
   fd.append("action", "reject");
   fd.append("id", id);
@@ -530,20 +530,20 @@ function rejectRequest(id) {
     .then((r) => r.json())
     .then((d) => {
       if (d.success) {
-        showNotification("Request rejected!", "success");
+        showNotification("Đã từ chối yêu cầu!", "success");
         loadRequests();
       } else {
-        showNotification(d.message || "Reject failed", "error");
+        showNotification(d.message || "Từ chối thất bại", "error");
       }
     })
-    .catch(() => showNotification("Reject failed", "error"));
+    .catch(() => showNotification("Từ chối thất bại", "error"));
 }
 
 // Loaders
 function loadStats() {
   // Check session first
   if (!currentUser || currentUser.role !== "admin") {
-    showNotification("Session expired. Please login again.", "error");
+  showNotification("Phiên đã hết hạn. Vui lòng đăng nhập lại.", "error");
     showSection("home");
     return;
   }
@@ -558,15 +558,15 @@ function loadStats() {
       const stats = document.getElementById("adminStats");
       if (stats) {
         stats.innerHTML = `
-        <div class="stat-card"><div class="stat-number">${c.data.length}</div><div class="stat-label">Total Clubs</div></div>
-        <div class="stat-card"><div class="stat-number">${e.data.length}</div><div class="stat-label">Events</div></div>
-        <div class="stat-card"><div class="stat-number">${u.data.length}</div><div class="stat-label">Users</div></div>
+        <div class="stat-card"><div class="stat-number">${c.data.length}</div><div class="stat-label">Tổng CLB</div></div>
+        <div class="stat-card"><div class="stat-number">${e.data.length}</div><div class="stat-label">Sự kiện</div></div>
+        <div class="stat-card"><div class="stat-number">${u.data.length}</div><div class="stat-label">Người dùng</div></div>
       `;
       }
     })
     .catch((error) => {
       console.error("Error loading stats:", error);
-      showNotification("Error loading dashboard data", "error");
+      showNotification("Lỗi tải dữ liệu bảng điều khiển", "error");
     });
 }
 function loadClubs() {
@@ -593,16 +593,16 @@ function loadClubs() {
               row.club_image || ""
             }">
           <td data-field="name"><strong>${row.name}</strong></td>
-          <td data-field="leader">${row.leader_name || "N/A"}</td>
+          <td data-field="leader">${row.leader_name || "Không có"}</td>
           <td data-field="members">${row.member_count || 0}</td>
           <td data-field="category">${row.category || ""}</td>
           <td>
               <button class="btn btn-secondary" onclick="editClub(${
                 row.id
-              })">Edit</button>
+              })">Sửa</button>
               <button class="btn btn-danger" onclick="deleteClub(${
                 row.id
-              })">Delete</button>
+              })">Xóa</button>
           </td>
         </tr>
       `
@@ -614,7 +614,7 @@ function loadClubs() {
         const eventSelect = document.getElementById("addEventClub");
         const editEventSelect = document.getElementById("editEventClub");
         const options =
-          '<option value="">Select Club</option>' +
+          '<option value="">Chọn CLB</option>' +
           d.data
             .map((c) => `<option value="${c.id}">${c.name}</option>`)
             .join("");
@@ -664,10 +664,10 @@ function loadEvents() {
         <td>
             <button class="btn btn-secondary" onclick="editEvent(${
               row.id
-            })">Edit</button>
+            })">Sửa</button>
             <button class="btn btn-danger" onclick="deleteEvent(${
               row.id
-            })">Delete</button>
+            })">Xóa</button>
         </td>
       </tr>
     `
@@ -708,10 +708,10 @@ function loadUsers() {
         <td>
             <button class="btn btn-secondary" onclick="editUser(${
               u.id
-            })">Edit</button>
+            })">Sửa</button>
             <button class="btn btn-danger" onclick="deleteUser(${
               u.id
-            })">Delete</button>
+            })">Xóa</button>
         </td>
       </tr>
     `
