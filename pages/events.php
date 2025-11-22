@@ -32,23 +32,7 @@ try {
                 <label>Search Events</label>
                 <input type="text" id="eventSearch" placeholder="Search by name..." onkeyup="filterEvents()">
             </div>
-            <div class="filter-group">
-                <label>Club</label>
-                <select id="eventClub" onchange="filterEvents()">
-                    <option value="">All Clubs</option>
-                    <?php foreach ($clubsForFilter as $c): ?>
-                    <option value="<?php echo (int)$c['id']; ?>"><?php echo htmlspecialchars($c['name']); ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label>Date From</label>
-                <input type="date" id="eventDateFrom" onchange="filterEvents()">
-            </div>
-            <div class="filter-group">
-                <label>Date To</label>
-                <input type="date" id="eventDateTo" onchange="filterEvents()">
-            </div>
+           
         </div>
 
         <div class="card-grid" id="eventsList">
