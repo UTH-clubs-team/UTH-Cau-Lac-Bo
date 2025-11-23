@@ -32,8 +32,8 @@ if (!empty($activeClubId)) {
 <div id="clubDetails" class="section<?php echo ($activeSection === 'clubDetails') ? ' active' : ''; ?>">
     <div class="container">
         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
-            <a class="btn btn-secondary" href="?section=clubs">← Back to Clubs</a>
-            <h1 id="clubDetailsTitle" style="margin: 0; color: #1f2937;">Club Details</h1>
+            <a class="btn btn-secondary" href="?section=clubs">← Quay lại CLB</a>
+            <h1 id="clubDetailsTitle" style="margin: 0; color: #1f2937;">Chi tiết CLB</h1>
         </div>
 
         <div id="clubDetailsContent">
@@ -50,7 +50,7 @@ if (!empty($activeClubId)) {
                             </div>
                         </div>
                         <?php if ($clubDetails): ?>
-                        <button class="btn btn-success" onclick="joinClubFromDetails()" id="joinClubBtn">Join Club</button>
+                        <button class="btn btn-success" onclick="joinClubFromDetails()" id="joinClubBtn">Tham gia CLB</button>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -68,18 +68,18 @@ if (!empty($activeClubId)) {
                                 </div>
                             <?php else: ?>
                                 <div style="max-width:280px;">
-                                    <div style="width:100%; padding:2rem; border-radius:8px; background:#f3f4f6; text-align:center; color:#6b7280; border:1px dashed #e5e7eb;">No image available</div>
+                                    <div style="width:100%; padding:2rem; border-radius:8px; background:#f3f4f6; text-align:center; color:#6b7280; border:1px dashed #e5e7eb;">Không có ảnh sẵn</div>
                                 </div>
                             <?php endif; ?>
                         </div>
                         <div>
-                            <h4 style="color: #008689; margin-bottom: 0.5rem;">👤 Club Leader</h4>
+                            <h4 style="color: #008689; margin-bottom: 0.5rem;">👤 Trưởng CLB</h4>
                             <p id="clubDetailLeader" style="margin: 0; font-weight: 500;">
                                 <?php echo $clubDetails ? htmlspecialchars($clubDetails['leader_name'] ?: 'N/A') : ''; ?>
                             </p>
                         </div>
                         <div>
-                            <h4 style="color: #008689; margin-bottom: 0.5rem;">📅 Meeting Schedule</h4>
+                            <h4 style="color: #008689; margin-bottom: 0.5rem;">📅 Lịch họp</h4>
                             <p id="clubDetailSchedule" style="margin: 0;">
                                 <?php echo $clubDetails ? htmlspecialchars($clubDetails['schedule_meeting'] ?: '') : ''; ?>
                             </p>
@@ -87,9 +87,9 @@ if (!empty($activeClubId)) {
                     </div>
                     
                     <div>
-                        <h4 style="color: #008689; margin-bottom: 1rem;">📝 About This Club</h4>
+                        <h4 style="color: #008689; margin-bottom: 1rem;">📝 Giới thiệu về CLB</h4>
                         <p id="clubDetailDescription" style="line-height: 1.6; color: #374151;">
-                            <?php echo $clubDetails ? nl2br(htmlspecialchars($clubDetails['description'])) : 'Please choose a club from the list.'; ?>
+                            <?php echo $clubDetails ? nl2br(htmlspecialchars($clubDetails['description'])) : 'Hãy chọn CLB trong danh sách.'; ?>
                         </p>
                     </div>
                 </div>
@@ -98,7 +98,7 @@ if (!empty($activeClubId)) {
             <!-- Club Activities -->
             <div class="card" style="margin-bottom: 2rem;">
                 <div class="card-header">
-                    <div class="card-title">🎯 Club Activities & Programs</div>
+                    <div class="card-title">🎯 Hoạt động & Chương trình CLB</div>
                 </div>
                 <div class="card-content">
                     <div class="card-grid" id="clubActivities">
@@ -109,7 +109,7 @@ if (!empty($activeClubId)) {
                             </div>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <div>No activities listed.</div>
+                            <div>Không có hoạt động nào được liệt kê.</div>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -118,7 +118,7 @@ if (!empty($activeClubId)) {
             <!-- Recent Events -->
             <div class="card" style="margin-bottom: 2rem;">
                 <div class="card-header">
-                    <div class="card-title">📅 Recent & Upcoming Events</div>
+                    <div class="card-title">📅 Sự kiện gần đây & sắp tới</div>
                 </div>
                 <div class="card-content">
                     <div id="clubEvents">
@@ -132,7 +132,7 @@ if (!empty($activeClubId)) {
                         </div>
                         <?php endforeach; ?>
                         <?php if (empty($clubEvents)): ?>
-                        <div>No recent events.</div>
+                        <div>Không có sự kiện gần đây.</div>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -142,9 +142,9 @@ if (!empty($activeClubId)) {
             <div class="card">
                 <div class="card-header">
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                        <div class="card-title">👥 Club Members</div>
+                        <div class="card-title">👥 Thành viên CLB</div>
                         <div style="display: flex; gap: 1rem; align-items: center;">
-                            <input type="text" placeholder="Search members..." id="memberSearch" onkeyup="filterMembers()" style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 5px; font-size: 0.9rem;">
+                            <input type="text" placeholder="Tìm thành viên..." id="memberSearch" onkeyup="filterMembers()" style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 5px; font-size: 0.9rem;">
                             <span class="badge badge-info" id="memberCountBadge"><?php echo $clubDetails ? count($clubMembers) . ' Total' : '0 Total'; ?></span>
                         </div>
                     </div>
@@ -154,9 +154,9 @@ if (!empty($activeClubId)) {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Name</th>
+                                    <th>Tên</th>
                                     <th>Email</th>
-                                    <th>Joined Date</th>
+                                    <th>Ngày tham gia</th>
                                 </tr>
                             </thead>
                             <tbody id="membersTableBody">
@@ -168,7 +168,7 @@ if (!empty($activeClubId)) {
                                 </tr>
                                 <?php endforeach; ?>
                                 <?php if (empty($clubMembers)): ?>
-                                <tr><td colspan="3">No members yet.</td></tr>
+                                <tr><td colspan="3">Chưa có thành viên nào.</td></tr>
                                 <?php endif; ?>
                             </tbody>
                         </table>

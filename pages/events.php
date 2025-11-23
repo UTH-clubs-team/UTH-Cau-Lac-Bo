@@ -25,12 +25,12 @@ try {
 <!-- Events Section -->
 <div id="events" class="section<?php echo ($activeSection === 'events') ? ' active' : ''; ?>">
     <div class="container">
-        <h1 style="text-align: center; margin-bottom: 2rem; color: #1f2937;">Upcoming Events</h1>
+        <h1 style="text-align: center; margin-bottom: 2rem; color: #1f2937;">Sự kiện sắp tới</h1>
         
         <div class="filters">
             <div class="filter-group">
                 <label>Search Events</label>
-                <input type="text" id="eventSearch" placeholder="Search by name..." onkeyup="filterEvents()">
+                <input type="text" id="eventSearch" placeholder="Tìm kiếm theo tên..." onkeyup="filterEvents()">
             </div>
            
         </div>
@@ -53,21 +53,21 @@ try {
                     </div>
                 </div>
                 <div class="card-content">
-                    <p><strong>📅 Date:</strong> <?php echo htmlspecialchars($event['date']); ?></p>
-                    <p><strong>📍 Location:</strong> <?php echo htmlspecialchars($event['location']); ?></p>
-                    <p><strong>👥 Available Seats:</strong> <span class="seats-available"><?php echo max(0, (int)$event['seats_left']); ?></span>/<?php echo (int)$event['max_participants']; ?></p>
+                    <p><strong>📅 Lịch:</strong> <?php echo htmlspecialchars($event['date']); ?></p>
+                    <p><strong>📍 Địa điểm:</strong> <?php echo htmlspecialchars($event['location']); ?></p>
+                    <p><strong>👥 Số chỗ còn lại:</strong> <span class="seats-available"><?php echo max(0, (int)$event['seats_left']); ?></span>/<?php echo (int)$event['max_participants']; ?></p>
                     <?php if ((int)$event['is_registered'] > 0): ?>
-                        <button class="btn btn-secondary" disabled>Already Registered</button>
+                        <button class="btn btn-secondary" disabled>Đã đăng ký</button>
                     <?php elseif ((int)$event['seats_left'] <= 0): ?>
-                        <button class="btn btn-secondary" disabled>Event Full</button>
+                        <button class="btn btn-secondary" disabled>Đã đầy</button>
                     <?php else: ?>
-                        <button class="btn btn-primary" onclick="registerForEvent(<?php echo (int)$event['id']; ?>)">Register Now</button>
+                        <button class="btn btn-primary" onclick="registerForEvent(<?php echo (int)$event['id']; ?>)">Đăng ký ngay</button>
                     <?php endif; ?>
                 </div>
             </div>
             <?php endforeach; ?>
             <?php if (empty($events)): ?>
-            <div>No events available.</div>
+            <div>Không có sự kiện nào.</div>
             <?php endif; ?>
         </div>
     </div>

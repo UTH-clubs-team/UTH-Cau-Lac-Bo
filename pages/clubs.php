@@ -15,16 +15,16 @@ try {
 <!-- Clubs Section -->
 <div id="clubs" class="section<?php echo ($activeSection === 'clubs') ? ' active' : ''; ?>">
     <div class="container">
-        <h1 style="text-align: center; margin-bottom: 2rem; color: #1f2937;">Student Clubs</h1>
+        <h1 style="text-align: center; margin-bottom: 2rem; color: #1f2937;">CLB sinh viên</h1>
         
         <div class="filters">
             <div class="filter-group">
                 <label>Search Clubs</label>
-                <input type="text" id="clubSearch" placeholder="Search by name..." onkeyup="filterClubs()">
+                <input type="text" id="clubSearch" placeholder="Tìm kiếm theo tên..." onkeyup="filterClubs()">
             </div>
             <div class="filter-group">
                 <label>Category</label>
-                <input type="text" id="clubCategory" placeholder="Type category..." onkeyup="filterClubs()">
+                <input type="text" id="clubCategory" placeholder="Nhập danh mục..." onkeyup="filterClubs()">
             </div>
         </div>
 
@@ -39,22 +39,22 @@ try {
             <div class="card" data-category="<?php echo strtolower($category); ?>">
                 <div class="card-header">
                     <div class="card-title"><?php echo htmlspecialchars($club['name']); ?></div>
-                    <span class="badge badge-info"><?php echo $memberCount; ?> Members</span>
+                    <span class="badge badge-info"><?php echo $memberCount; ?> Thành viên</span>
                 </div>
                 <div class="card-content">
-                    <p><strong>Leader:</strong> <?php echo $leaderName; ?></p>
-                    <p><strong>Category:</strong> <?php echo ucfirst($category); ?></p>
+                    <p><strong>Trưởng CLB:</strong> <?php echo $leaderName; ?></p>
+                    <p><strong>Danh mục:</strong> <?php echo ucfirst($category); ?></p>
                     <p><?php echo htmlspecialchars($club['description']); ?></p>
                     <?php if ($schedule): ?>
-                    <p><strong>Meeting Schedule:</strong> <?php echo $schedule; ?></p>
+                    <p><strong>Lịch họp:</strong> <?php echo $schedule; ?></p>
                     <?php endif; ?>
-                    <button class="btn btn-success" onclick="joinClub(<?php echo (int)$club['id']; ?>)">Join Club</button>
-                    <a class="btn btn-secondary" href="?section=clubDetails&club_id=<?php echo (int)$club['id']; ?>">View Details</a>
+                    <button class="btn btn-success" onclick="joinClub(<?php echo (int)$club['id']; ?>)">Tham gia CLB</button>
+                    <a class="btn btn-secondary" href="?section=clubDetails&club_id=<?php echo (int)$club['id']; ?>">Xem chi tiết</a>
                 </div>
             </div>
             <?php endforeach; ?>
             <?php if (empty($clubs)): ?>
-            <div>No clubs available.</div>
+            <div>Không có CLB nào.</div>
             <?php endif; ?>
         </div>
     </div>
