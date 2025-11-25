@@ -15,14 +15,14 @@ session_start();
         <div class="nav-container">
             <div class="logo">🎓 UTH Clubs</div>
             <ul class="nav-links" id="navLinks">
-                <li><a href="#" onclick="showSection('home'); return false;" class="active">Home</a></li>
-                <li><a href="#" onclick="showSection('clubs'); return false;">Clubs</a></li>
-                <li><a href="#" onclick="showSection('events'); return false;">Events</a></li>
+                <li><a href="#" onclick="showSection('home'); return false;" class="active">Trang chủ</a></li>
+                <li><a href="#" onclick="showSection('clubs'); return false;">Câu lạc bộ</a></li>
+                <li><a href="#" onclick="showSection('events'); return false;">Sự kiện</a></li>
             </ul>
             <div class="auth-section" id="authSection">
                 <div class="auth-buttons">
-                    <a href="#" class="btn btn-secondary" onclick="showLoginModal(); return false;">Login</a>
-                    <a href="#" class="btn btn-primary" onclick="showRegisterModal(); return false;">Register</a>
+                    <a href="#" class="btn btn-secondary" onclick="showLoginModal(); return false;">Đăng nhập</a>
+                    <a href="#" class="btn btn-primary" onclick="showRegisterModal(); return false;">Đăng ký</a>
                 </div>
             </div>
         </div>
