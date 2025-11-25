@@ -13,7 +13,7 @@ session_start();
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">🎓 UTH Clubs</div>
+            <div class="logo">🎓 UTH Câu Lạc Bộ</div>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#" onclick="showSection('home'); return false;" class="active">Trang chủ</a></li>
                 <li><a href="#" onclick="showSection('clubs'); return false;">Câu lạc bộ</a></li>
