@@ -111,15 +111,15 @@ function handleAddEvent(event) {
     .then((r) => r.json())
     .then((d) => {
       if (d.success) {
-        showNotification("Event added successfully!", "success");
+        showNotification("Thêm sự kiện thành công!", "success");
         closeModal("addEventModal");
         event.target.reset();
         loadEvents();
       } else {
-        showNotification(d.message || "Failed to add event", "error");
+        showNotification(d.message || "Thêm sự kiện thất bại", "error");
       }
     })
-    .catch(() => showNotification("Failed to add event", "error"));
+    .catch(() => showNotification("Thêm sự kiện thất bại", "error"));
 }
 
 function handleAddClub(event) {
@@ -154,15 +154,15 @@ function handleAddClub(event) {
     .then((r) => r.json())
     .then((d) => {
       if (d.success) {
-        showNotification("Club added successfully!", "success");
+        showNotification("Thêm câu lạc bộ thành công!", "success");
         closeModal("addClubModal");
         event.target.reset();
         loadClubs();
       } else {
-        showNotification(d.message || "Failed to add club", "error");
+        showNotification(d.message || "Thêm câu lạc bộ thất bại", "error");
       }
     })
-    .catch(() => showNotification("Failed to add club", "error"));
+    .catch(() => showNotification("Thêm câu lạc bộ thất bại", "error"));
 }
 
 function editClub(clubId) {
@@ -176,7 +176,7 @@ function editClub(clubId) {
       if (d.success) {
         const select = document.getElementById("editClubLeader");
         select.innerHTML =
-          '<option value="">Select Leader (Optional)</option>' +
+          '<option value="">Chọn trưởng câu lạc bộ (Tùy chọn)</option>' +
           d.data
             .map(
               (user) =>
@@ -247,18 +247,18 @@ function handleEditClub(event) {
     .then((r) => r.json())
     .then((d) => {
       if (d.success) {
-        showNotification("Club updated successfully!", "success");
+        showNotification("Cập nhật câu lạc bộ thành công!", "success");
         closeModal("editClubModal");
         loadClubs();
       } else {
-        showNotification(d.message || "Update failed", "error");
+        showNotification(d.message || "Cập nhật thất bại", "error");
       }
     })
-    .catch(() => showNotification("Update failed", "error"));
+    .catch(() => showNotification("Cập nhật thất bại", "error"));
 }
 
 function deleteClub(clubId) {
-  if (confirm("Are you sure you want to delete this club?")) {
+  if (confirm("Bạn có chắc chắn muốn xóa câu lạc bộ này?")) {
     const fd = new FormData();
     fd.append("action", "delete");
     fd.append("id", clubId);
@@ -266,13 +266,13 @@ function deleteClub(clubId) {
       .then((r) => r.json())
       .then((d) => {
         if (d.success) {
-          showNotification("Club deleted successfully!", "success");
+          showNotification("Xóa câu lạc bộ thành công!", "success");
           loadClubs();
         } else {
-          showNotification(d.message || "Delete failed", "error");
+          showNotification(d.message || "Xóa thất bại", "error");
         }
       })
-      .catch(() => showNotification("Delete failed", "error"));
+      .catch(() => showNotification("Xóa thất bại", "error"));
   }
 }
 
@@ -289,7 +289,7 @@ function editEvent(eventId) {
       if (d.success) {
         const select = document.getElementById("editEventClub");
         select.innerHTML =
-          '<option value="">Select Club</option>' +
+          '<option value="">Chọn câu lạc bộ</option>' +
           d.data
             .map((club) => `<option value="${club.id}">${club.name}</option>`)
             .join("");
@@ -345,18 +345,18 @@ function handleEditEvent(event) {
     .then((r) => r.json())
     .then((d) => {
       if (d.success) {
-        showNotification("Event updated successfully!", "success");
+        showNotification("Cập nhật sự kiện thành công!", "success");
         closeModal("editEventModal");
         loadEvents();
       } else {
-        showNotification(d.message || "Update failed", "error");
+        showNotification(d.message || "Cập nhật thất bại", "error");
       }
     })
-    .catch(() => showNotification("Update failed", "error"));
+    .catch(() => showNotification("Cập nhật thất bại", "error"));
 }
 
 function deleteEvent(eventId) {
-  if (confirm("Are you sure you want to delete this event?")) {
+  if (confirm("Bạn có chắc chắn muốn xóa sự kiện này?")) {
     const fd = new FormData();
     fd.append("action", "delete");
     fd.append("id", eventId);
@@ -364,13 +364,13 @@ function deleteEvent(eventId) {
       .then((r) => r.json())
       .then((d) => {
         if (d.success) {
-          showNotification("Event deleted successfully!", "success");
+          showNotification("Xóa sự kiện thành công!", "success");
           loadEvents();
         } else {
-          showNotification(d.message || "Delete failed", "error");
+          showNotification(d.message || "Xóa thất bại", "error");
         }
       })
-      .catch(() => showNotification("Delete failed", "error"));
+      .catch(() => showNotification("Xóa thất bại", "error"));
   }
 }
 
@@ -392,15 +392,15 @@ function handleAddUser(e) {
     .then((r) => r.json())
     .then((d) => {
       if (d.success) {
-        showNotification("User added!", "success");
+        showNotification("Thêm người dùng thành công!", "success");
         closeModal("addUserModal");
         e.target.reset();
         loadUsers();
       } else {
-        showNotification(d.message || "Add user failed", "error");
+        showNotification(d.message || "Thêm người dùng thất bại", "error");
       }
     })
-    .catch(() => showNotification("Add user failed", "error"));
+    .catch(() => showNotification("Thêm người dùng thất bại", "error"));
 }
 function editUser(id) {
   const row = document.querySelector(`#usersTableBody tr[data-id="${id}"]`);
@@ -441,17 +441,17 @@ function handleEditUser(event) {
     .then((r) => r.json())
     .then((d) => {
       if (d.success) {
-        showNotification("User updated successfully!", "success");
+        showNotification("Cập nhật người dùng thành công!", "success");
         closeModal("editUserModal");
         loadUsers();
       } else {
-        showNotification(d.message || "Update failed", "error");
+        showNotification(d.message || "Cập nhật thất bại", "error");
       }
     })
-    .catch(() => showNotification("Update failed", "error"));
+    .catch(() => showNotification("Cập nhật thất bại", "error"));
 }
 function deleteUser(id) {
-  if (!confirm("Delete this user?")) return;
+  if (!confirm("Bạn có chắc chắn muốn xóa người dùng này?")) return;
   const fd = new FormData();
   fd.append("action", "delete");
   fd.append("id", id);
@@ -459,13 +459,13 @@ function deleteUser(id) {
     .then((r) => r.json())
     .then((d) => {
       if (d.success) {
-        showNotification("User deleted!", "success");
+        showNotification("Xóa người dùng thành công!", "success");
         loadUsers();
       } else {
-        showNotification(d.message || "Delete failed", "error");
+        showNotification(d.message || "Xóa thất bại", "error");
       }
     })
-    .catch(() => showNotification("Delete failed", "error"));
+    .catch(() => showNotification("Xóa thất bại", "error"));
 }
 
 function loadRequests() {
@@ -490,10 +490,10 @@ function loadRequests() {
             <td>
               <button class="btn btn-success" onclick="approveRequest(${
                 req.id
-              })">Approve</button>
+              })">Phê duyệt</button>
               <button class="btn btn-danger" onclick="rejectRequest(${
                 req.id
-              })">Reject</button>
+              })">Từ chối</button>
             </td>
           </tr>
         `
@@ -501,7 +501,7 @@ function loadRequests() {
           .join("");
       }
     })
-    .catch((error) => console.error("Error loading requests:", error));
+    .catch((error) => console.error("Lỗi khi tải yêu cầu:", error));
 }
 
 function approveRequest(id) {
@@ -512,17 +512,17 @@ function approveRequest(id) {
     .then((r) => r.json())
     .then((d) => {
       if (d.success) {
-        showNotification("Request approved!", "success");
+        showNotification("Yêu cầu đã được phê duyệt!", "success");
         loadRequests();
       } else {
-        showNotification(d.message || "Approve failed", "error");
+        showNotification(d.message || "Phê duyệt thất bại", "error");
       }
     })
-    .catch(() => showNotification("Approve failed", "error"));
+    .catch(() => showNotification("Phê duyệt thất bại", "error"));
 }
 
 function rejectRequest(id) {
-  if (!confirm("Are you sure you want to reject this request?")) return;
+  if (!confirm("Bạn có chắc chắn muốn từ chối yêu cầu này?")) return;
   const fd = new FormData();
   fd.append("action", "reject");
   fd.append("id", id);
@@ -530,20 +530,20 @@ function rejectRequest(id) {
     .then((r) => r.json())
     .then((d) => {
       if (d.success) {
-        showNotification("Request rejected!", "success");
+        showNotification("Yêu cầu đã bị từ chối!", "success");
         loadRequests();
       } else {
-        showNotification(d.message || "Reject failed", "error");
+        showNotification(d.message || "Từ chối thất bại", "error");
       }
     })
-    .catch(() => showNotification("Reject failed", "error"));
+    .catch(() => showNotification("Từ chối thất bại", "error"));
 }
 
 // Loaders
 function loadStats() {
   // Check session first
   if (!currentUser || currentUser.role !== "admin") {
-    showNotification("Session expired. Please login again.", "error");
+    showNotification("Phiên đã hết hạn. Vui lòng đăng nhập lại.", "error");
     showSection("home");
     return;
   }
@@ -558,15 +558,15 @@ function loadStats() {
       const stats = document.getElementById("adminStats");
       if (stats) {
         stats.innerHTML = `
-        <div class="stat-card"><div class="stat-number">${c.data.length}</div><div class="stat-label">Total Clubs</div></div>
-        <div class="stat-card"><div class="stat-number">${e.data.length}</div><div class="stat-label">Events</div></div>
-        <div class="stat-card"><div class="stat-number">${u.data.length}</div><div class="stat-label">Users</div></div>
+        <div class="stat-card"><div class="stat-number">${c.data.length}</div><div class="stat-label">Tổng số câu lạc bộ</div></div>
+        <div class="stat-card"><div class="stat-number">${e.data.length}</div><div class="stat-label">Sự kiện</div></div>
+        <div class="stat-card"><div class="stat-number">${u.data.length}</div><div class="stat-label">Người dùng</div></div>
       `;
       }
     })
     .catch((error) => {
-      console.error("Error loading stats:", error);
-      showNotification("Error loading dashboard data", "error");
+      console.error("Lỗi khi tải thống kê:", error);
+      showNotification("Lỗi khi tải dữ liệu bảng điều khiển", "error");
     });
 }
 function loadClubs() {
@@ -599,10 +599,10 @@ function loadClubs() {
           <td>
               <button class="btn btn-secondary" onclick="editClub(${
                 row.id
-              })">Edit</button>
+              })">Chỉnh sửa</button>
               <button class="btn btn-danger" onclick="deleteClub(${
                 row.id
-              })">Delete</button>
+              })">Xóa</button>
           </td>
         </tr>
       `
@@ -614,18 +614,18 @@ function loadClubs() {
         const eventSelect = document.getElementById("addEventClub");
         const editEventSelect = document.getElementById("editEventClub");
         const options =
-          '<option value="">Select Club</option>' +
+          '<option value="">Chọn câu lạc bộ</option>' +
           d.data
             .map((c) => `<option value="${c.id}">${c.name}</option>`)
             .join("");
         if (eventSelect) eventSelect.innerHTML = options;
         if (editEventSelect) editEventSelect.innerHTML = options;
       } catch (e) {
-        console.error("Error populating event selects:", e);
+        console.error("Lỗi khi tải danh sách câu lạc bộ cho sự kiện:", e);
       }
     })
     .catch((error) => {
-      console.error("Error loading clubs:", error);
+      console.error("Lỗi khi tải câu lạc bộ:", error);
     });
 }
 function loadEvents() {
@@ -638,12 +638,12 @@ function loadEvents() {
     .then((d) => {
       console.log("Events response:", d);
       if (!d.success) {
-        console.error("Failed to load events:", d.message);
+        console.error("Không thể tải sự kiện:", d.message);
         return;
       }
       const tbody = document.getElementById("eventsTableBody");
       if (!tbody) {
-        console.error("eventsTableBody element not found");
+        console.error("Không tìm thấy phần tử eventsTableBody");
         return;
       }
       tbody.innerHTML = d.data
@@ -664,10 +664,10 @@ function loadEvents() {
         <td>
             <button class="btn btn-secondary" onclick="editEvent(${
               row.id
-            })">Edit</button>
+            })">Chỉnh sửa</button>
             <button class="btn btn-danger" onclick="deleteEvent(${
               row.id
-            })">Delete</button>
+            })">Xoá</button>
         </td>
       </tr>
     `
@@ -675,7 +675,7 @@ function loadEvents() {
         .join("");
     })
     .catch((error) => {
-      console.error("Error loading events:", error);
+      console.error("Lỗi khi tải sự kiện:", error);
     });
 }
 function loadUsers() {
@@ -688,12 +688,12 @@ function loadUsers() {
     .then((d) => {
       console.log("Users response:", d);
       if (!d.success) {
-        console.error("Failed to load users:", d.message);
+        console.error("Không thể tải người dùng:", d.message);
         return;
       }
       const tbody = document.getElementById("usersTableBody");
       if (!tbody) {
-        console.error("usersTableBody element not found");
+        console.error("Không tìm thấy phần tử usersTableBody");
         return;
       }
       tbody.innerHTML = d.data
@@ -708,10 +708,10 @@ function loadUsers() {
         <td>
             <button class="btn btn-secondary" onclick="editUser(${
               u.id
-            })">Edit</button>
+            })">Chỉnh sửa</button>
             <button class="btn btn-danger" onclick="deleteUser(${
               u.id
-            })">Delete</button>
+            })">Xóa</button>
         </td>
       </tr>
     `
@@ -719,7 +719,7 @@ function loadUsers() {
         .join("");
     })
     .catch((error) => {
-      console.error("Error loading users:", error);
+      console.error("Lỗi khi tải người dùng:", error);
     });
 }
 

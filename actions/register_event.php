@@ -5,12 +5,12 @@ require_once '../config/database.php';
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(['success' => false, 'message' => 'Invalid request method']);
+    echo json_encode(['success' => false, 'message' => 'Phương thức yêu cầu không hợp lệ']);
     exit;
 }
 
 if (!isset($_SESSION['user_id'])) {
-    echo json_encode(['success' => false, 'message' => 'Not authenticated']);
+    echo json_encode(['success' => false, 'message' => 'Chưa xác thực']);
     exit;
 }
 
@@ -18,7 +18,7 @@ $userId = (int)$_SESSION['user_id'];
 $eventId = isset($_POST['event_id']) ? (int)$_POST['event_id'] : 0;
 
 if ($eventId <= 0) {
-    echo json_encode(['success' => false, 'message' => 'Invalid event']);
+    echo json_encode(['success' => false, 'message' => 'Sự kiện không hợp lệ']);
     exit;
 }
 
@@ -28,7 +28,7 @@ try {
     $cap->execute([$eventId]);
     $event = $cap->fetch(PDO::FETCH_ASSOC);
     if (!$event) {
-        echo json_encode(['success' => false, 'message' => 'Event not found']);
+        echo json_encode(['success' => false, 'message' => 'Không tìm thấy sự kiện']);
         exit;
     }
 
@@ -36,7 +36,7 @@ try {
     $cnt->execute([$eventId]);
     $regCount = (int)$cnt->fetch(PDO::FETCH_ASSOC)['c'];
     if ($regCount >= (int)$event['max_participants']) {
-        echo json_encode(['success' => false, 'message' => 'Event is full']);
+        echo json_encode(['success' => false, 'message' => 'Sự kiện đã đầy']);
         exit;
     }
 
@@ -44,7 +44,7 @@ try {
     $check = $pdo->prepare('SELECT id FROM event_registrations WHERE event_id = ? AND user_id = ?');
     $check->execute([$eventId, $userId]);
     if ($check->fetch()) {
-        echo json_encode(['success' => false, 'message' => 'You have already registered for this event']);
+        echo json_encode(['success' => false, 'message' => 'Bạn đã đăng ký sự kiện này']);
         exit;
     }
 
@@ -60,7 +60,7 @@ try {
 
     echo json_encode(['success' => true, 'seats_left' => $seatsLeft]);
 } catch (Exception $e) {
-    echo json_encode(['success' => false, 'message' => 'Server error']);
+    echo json_encode(['success' => false, 'message' => 'Lỗi máy chủ']);
 }
 ?>
 

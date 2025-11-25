@@ -5,7 +5,7 @@ require_once '../../config/database.php';
 header('Content-Type: application/json');
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
-    echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+    echo json_encode(['success' => false, 'message' => 'Không có quyền truy cập']);
     exit;
 }
 
@@ -16,11 +16,11 @@ try {
     try {
         $colCheck = $pdo->query("SHOW COLUMNS FROM club_members LIKE 'status'")->fetch();
         if (!$colCheck) {
-            echo json_encode(['success' => false, 'message' => 'Database not configured for join requests: missing status column. Run update_club_members.sql']);
+            echo json_encode(['success' => false, 'message' => 'Cơ sở dữ liệu chưa được cấu hình cho yêu cầu tham gia: thiếu cột trạng thái. Vui lòng chạy update_club_members.sql']);
             exit;
         }
     } catch (Exception $e) {
-        echo json_encode(['success' => false, 'message' => 'Database error checking schema']);
+        echo json_encode(['success' => false, 'message' => 'Lỗi cơ sở dữ liệu khi kiểm tra cấu trúc']);
         exit;
     }
     switch ($action) {
@@ -41,20 +41,20 @@ try {
             $id = (int)$_POST['id'];
             $stmt = $pdo->prepare("UPDATE club_members SET status = 'approved' WHERE id = ?");
             $stmt->execute([$id]);
-            echo json_encode(['success' => true, 'message' => 'Request approved']);
+            echo json_encode(['success' => true, 'message' => 'Yêu cầu được chấp thuận']);
             break;
 
         case 'reject':
             $id = (int)$_POST['id'];
             $stmt = $pdo->prepare("UPDATE club_members SET status = 'rejected' WHERE id = ?");
             $stmt->execute([$id]);
-            echo json_encode(['success' => true, 'message' => 'Request rejected']);
+            echo json_encode(['success' => true, 'message' => 'Yêu cầu bị từ chối']);
             break;
 
         default:
-            echo json_encode(['success' => false, 'message' => 'Invalid action']);
+            echo json_encode(['success' => false, 'message' => 'Hành động không hợp lệ']);
     }
 } catch (Exception $e) {
-    echo json_encode(['success' => false, 'message' => 'Server error']);
+    echo json_encode(['success' => false, 'message' => 'Lỗi máy chủ']);
 }
 ?>

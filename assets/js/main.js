@@ -9,7 +9,7 @@ function showSection(sectionName) {
     sectionName === "dashboard" &&
     (!currentUser || currentUser.role !== "admin")
   ) {
-    showNotification("Dashboard is for admin only", "error");
+    showNotification("Chỉ quản trị viên mới được phép truy cập Dashboard.", "error");
     return;
   }
   // Hide all sections
@@ -67,7 +67,7 @@ function showSection(sectionName) {
 // Club functions
 function joinClub(clubId) {
   if (!currentUser) {
-    showNotification("Please login to join clubs!", "error");
+    showNotification("Vui lòng đăng nhập để tham gia câu lạc bộ!", "error");
     showLoginModal();
     return;
   }
@@ -82,7 +82,7 @@ function joinClub(clubId) {
     .then((data) => {
       if (data.success) {
         showNotification(
-          data.message || "Successfully joined the club!",
+          data.message || "Tham gia câu lạc bộ thành công!",
           "success"
         );
         // Update member badge on the card if present
@@ -97,14 +97,14 @@ function joinClub(clubId) {
           );
           if (card && data.member_count !== undefined) {
             const badge = card.querySelector(".badge");
-            if (badge) badge.textContent = `${data.member_count} Members`;
+            if (badge) badge.textContent = `${data.member_count} Thành viên`;
           }
         } catch (e) {}
       } else {
-        showNotification(data.message || "Failed to join club", "error");
+        showNotification(data.message || "Tham gia câu lạc bộ thất bại", "error");
       }
     })
-    .catch(() => showNotification("Failed to join club", "error"));
+    .catch(() => showNotification("Tham gia câu lạc bộ thất bại", "error"));
 }
 
 function filterClubs() {
@@ -134,8 +134,8 @@ function filterClubs() {
 function registerForEvent(eventId) {
   if (!currentUser) {
     document.getElementById("eventRegisterContent").innerHTML = `
-            <p>Please login to register for events.</p>
-            <button class="btn btn-primary" onclick="showLoginModal(); closeModal('eventRegisterModal');">Login</button>
+            <p>Vui lòng đăng nhập để đăng ký sự kiện.</p>
+            <button class="btn btn-primary" onclick="showLoginModal(); closeModal('eventRegisterModal');">Đăng nhập</button>
         `;
     document.getElementById("eventRegisterModal").style.display = "block";
     return;
@@ -150,7 +150,7 @@ function registerForEvent(eventId) {
     .then((res) => res.json())
     .then((data) => {
       if (data.success) {
-        showNotification("Successfully registered for the event!", "success");
+        showNotification("Đăng ký sự kiện thành công!", "success");
         // Update UI for successful registration
         try {
           // Update events page
@@ -171,7 +171,7 @@ function registerForEvent(eventId) {
             // Update button to show registered state
             const button = eventCard.querySelector("button.btn.btn-primary");
             if (button) {
-              button.textContent = "Already Registered";
+              button.textContent = "Đã đăng ký";
               button.className = "btn btn-secondary";
               button.disabled = true;
               button.removeAttribute("onclick");
@@ -196,7 +196,7 @@ function registerForEvent(eventId) {
             // Update button to show registered state
             const button = homeCard.querySelector("button.btn.btn-primary");
             if (button) {
-              button.textContent = "Already Registered";
+              button.textContent = "Đã đăng ký";
               button.className = "btn btn-secondary";
               button.disabled = true;
               button.removeAttribute("onclick");
@@ -204,10 +204,10 @@ function registerForEvent(eventId) {
           }
         } catch (e) {}
       } else {
-        showNotification(data.message || "Registration failed", "error");
+        showNotification(data.message || "Đăng ký thất bại", "error");
       }
     })
-    .catch(() => showNotification("Registration failed", "error"));
+    .catch(() => showNotification("Đăng ký thất bại", "error"));
 }
 
 function filterEvents() {
@@ -270,16 +270,16 @@ window.onclick = function (event) {
 
 function joinClubFromDetails() {
   if (!currentUser) {
-    showNotification("Please login to join clubs!", "error");
+    showNotification("Vui lòng đăng nhập để tham gia câu lạc bộ!", "error");
     showLoginModal();
     return;
   }
 
-  showNotification("Successfully joined the club!", "success");
+  showNotification("Tham gia câu lạc bộ thành công!", "success");
 
   // Update button text
   const joinBtn = document.getElementById("joinClubBtn");
-  joinBtn.textContent = "Already Joined";
+  joinBtn.textContent = "Đã tham gia";
   joinBtn.disabled = true;
   joinBtn.classList.remove("btn-success");
   joinBtn.classList.add("btn-secondary");
@@ -294,7 +294,7 @@ function updateAuthUI() {
       <div class="user-info">
         <div class="user-avatar">${currentUser.name.charAt(0)}</div>
         <span>${currentUser.name}</span>
-        <button class="btn btn-secondary" onclick="logout(); return false;">Logout</button>
+        <button class="btn btn-secondary" onclick="logout(); return false;">Đăng xuất</button>
       </div>
     `;
 
@@ -315,8 +315,8 @@ function updateAuthUI() {
   } else {
     authSection.innerHTML = `
       <div class="auth-buttons">
-        <a href="#" class="btn btn-secondary" onclick="showLoginModal(); return false;">Login</a>
-        <a href="#" class="btn btn-primary" onclick="showRegisterModal(); return false;">Register</a>
+        <a href="#" class="btn btn-secondary" onclick="showLoginModal(); return false;">Đăng nhập</a>
+        <a href="#" class="btn btn-primary" onclick="showRegisterModal(); return false;">Đăng ký</a>
       </div>
     `;
 
@@ -372,10 +372,10 @@ function initializeDashboard() {
           initializeAdminEventListeners();
         }, 100);
 
-        console.log("Dashboard data loaded successfully");
+        console.log("Dữ liệu Dashboard đã được tải thành công");
       } catch (error) {
-        console.error("Error loading dashboard data:", error);
-        showNotification("Error loading dashboard data", "error");
+        console.error("Lỗi khi tải dữ liệu dashboard:", error);
+        showNotification("Lỗi khi tải dữ liệu dashboard", "error");
       }
     });
   } else if (currentUser) {
