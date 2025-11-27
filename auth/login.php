@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
       
     if (!str_ends_with($email, '@ut.edu.vn')) {
-        echo json_encode(['success' => false, 'message' => 'Email must be @ut.edu.vn domain']);
+        echo json_encode(['success' => false, 'message' => 'Email phải thuộc miền @ut.edu.vn']);
         exit;
     }
 
@@ -32,17 +32,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ]]);
             } else {
                 error_log("Password verification failed");
-                echo json_encode(['success' => false, 'message' => 'Invalid password']);
+                echo json_encode(['success' => false, 'message' => 'Mật khẩu không hợp lệ']);
             }
         } else {
             error_log("User not found");
-            echo json_encode(['success' => false, 'message' => 'User not found']);
+            echo json_encode(['success' => false, 'message' => 'Người dùng không tồn tại']);
         }
     } catch (Exception $e) {
         error_log("Login error: " . $e->getMessage());
-        echo json_encode(['success' => false, 'message' => 'Database error']);
+        echo json_encode(['success' => false, 'message' => 'Lỗi cơ sở dữ liệu']);
     }
 } else {
-    echo json_encode(['success' => false, 'message' => 'Invalid request method']);
+    echo json_encode(['success' => false, 'message' => 'Phương thức yêu cầu không hợp lệ']);
 }
 ?>

@@ -3,13 +3,16 @@
 // Check session on page load
 window.addEventListener("DOMContentLoaded", function () {
   checkSession();
-  
+
   // Check session every 5 minutes
   setInterval(() => {
     checkSession().then((data) => {
-      if (!data && currentSection === 'dashboard') {
-        showNotification('Session expired. Please login again.', 'error');
-        showSection('home');
+      if (!data && currentSection === "dashboard") {
+        showNotification(
+          "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.",
+          "error"
+        );
+        showSection("home");
       }
     });
   }, 300000); // 5 minutes
@@ -22,28 +25,31 @@ function checkSession() {
       if (data.logged_in) {
         currentUser = data.user;
         updateAuthUI();
-        
+
         // If on dashboard page, ensure proper dashboard is shown
-        if (currentSection === 'dashboard' || document.getElementById('dashboard').classList.contains('active')) {
-          if (typeof initializeDashboard === 'function') {
+        if (
+          currentSection === "dashboard" ||
+          document.getElementById("dashboard").classList.contains("active")
+        ) {
+          if (typeof initializeDashboard === "function") {
             initializeDashboard();
           }
         }
-        
+
         return data;
       } else {
         // Session expired or not logged in
         currentUser = null;
         updateAuthUI();
-        
+
         // Hide dashboards if session expired
-        if (document.getElementById('adminDashboard')) {
-          document.getElementById('adminDashboard').style.display = 'none';
+        if (document.getElementById("adminDashboard")) {
+          document.getElementById("adminDashboard").style.display = "none";
         }
-        if (document.getElementById('studentDashboard')) {
-          document.getElementById('studentDashboard').style.display = 'none';
+        if (document.getElementById("studentDashboard")) {
+          document.getElementById("studentDashboard").style.display = "none";
         }
-        
+
         return null;
       }
     })
@@ -95,7 +101,7 @@ function handleLogin(event) {
         currentUser = data.user;
         updateAuthUI();
         closeModal("loginModal");
-        showNotification("Login successful!", "success");
+        showNotification("Đăng nhập thành công!", "success");
 
         try {
           showSection("dashboard");
@@ -104,12 +110,12 @@ function handleLogin(event) {
           console.error("Section error:", sectionError);
         }
       } else {
-        showNotification(data.message || "Login failed", "error");
+        showNotification(data.message || "Đăng nhập thất bại", "error");
       }
     })
     .catch((error) => {
       console.error("Login error:", error);
-      showNotification("Login failed!", "error");
+      showNotification("Đăng nhập thất bại!", "error");
     });
 }
 
@@ -123,12 +129,12 @@ function handleRegister(event) {
   ).value;
 
   if (!email.endsWith("@ut.edu.vn")) {
-    showNotification("Email must be @ut.edu.vn domain!", "error");
+    showNotification("Email phải có đuôi @ut.edu.vn!", "error");
     return;
   }
 
   if (password !== confirmPassword) {
-    showNotification("Passwords do not match!", "error");
+    showNotification("Mật khẩu xác nhận không khớp!", "error");
     return;
   }
 
@@ -151,13 +157,13 @@ function handleRegister(event) {
         currentUser = data.user;
         updateAuthUI();
         closeModal("registerModal");
-        showNotification("Registration successful!", "success");
+        showNotification("Đăng ký thành công!", "success");
       } else {
         showNotification(data.message, "error");
       }
     })
     .catch((error) => {
-      showNotification("Registration failed!", "error");
+      showNotification("Đăng ký thất bại!", "error");
     });
 }
 
@@ -168,6 +174,6 @@ function logout() {
       currentUser = null;
       updateAuthUI();
       showSection("home");
-      showNotification("Logged out successfully!", "success");
+      showNotification("Đăng xuất thành công!", "success");
     });
 }

@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     
     if (!str_ends_with($email, '@ut.edu.vn')) {
-        echo json_encode(['success' => false, 'message' => 'Email must be @ut.edu.vn domain']);
+        echo json_encode(['success' => false, 'message' => 'Email phải thuộc miền @ut.edu.vn']);
         exit;
     }
     
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->execute([$email]);
     
     if ($stmt->fetch()) {
-        echo json_encode(['success' => false, 'message' => 'Email already exists']);
+        echo json_encode(['success' => false, 'message' => 'Email đã tồn tại']);
         exit;
     }
     
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'role' => 'student'
         ]]);
     } else {
-        echo json_encode(['success' => false, 'message' => 'Registration failed']);
+        echo json_encode(['success' => false, 'message' => 'Đăng ký không thành công']);
     }
 }
 ?>

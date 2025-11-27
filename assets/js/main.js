@@ -67,7 +67,7 @@ function showSection(sectionName) {
 // Club functions
 function joinClub(clubId) {
   if (!currentUser) {
-    showNotification("Please login to join clubs!", "error");
+    showNotification("Vui lòng đăng nhập để tham gia CLB!", "error");
     showLoginModal();
     return;
   }
@@ -134,8 +134,8 @@ function filterClubs() {
 function registerForEvent(eventId) {
   if (!currentUser) {
     document.getElementById("eventRegisterContent").innerHTML = `
-            <p>Please login to register for events.</p>
-            <button class="btn btn-primary" onclick="showLoginModal(); closeModal('eventRegisterModal');">Login</button>
+            <p>Vui lòng đăng nhập để đăng ký sự kiện.</p>
+            <button class="btn btn-primary" onclick="showLoginModal(); closeModal('eventRegisterModal');">Đăng nhập</button>
         `;
     document.getElementById("eventRegisterModal").style.display = "block";
     return;
@@ -150,7 +150,7 @@ function registerForEvent(eventId) {
     .then((res) => res.json())
     .then((data) => {
       if (data.success) {
-        showNotification("Successfully registered for the event!", "success");
+        showNotification("Đăng ký sự kiện thành công!", "success");
         // Update UI for successful registration
         try {
           // Update events page
@@ -204,10 +204,10 @@ function registerForEvent(eventId) {
           }
         } catch (e) {}
       } else {
-        showNotification(data.message || "Registration failed", "error");
+        showNotification(data.message || "Đăng ký thất bại", "error");
       }
     })
-    .catch(() => showNotification("Registration failed", "error"));
+    .catch(() => showNotification("Đăng ký thất bại", "error"));
 }
 
 function filterEvents() {
@@ -270,16 +270,16 @@ window.onclick = function (event) {
 
 function joinClubFromDetails() {
   if (!currentUser) {
-    showNotification("Please login to join clubs!", "error");
+    showNotification("Vui lòng đăng nhập để tham gia CLB!", "error");
     showLoginModal();
     return;
   }
 
-  showNotification("Successfully joined the club!", "success");
+  showNotification("Tham gia CLB thành công!", "success");
 
   // Update button text
   const joinBtn = document.getElementById("joinClubBtn");
-  joinBtn.textContent = "Already Joined";
+  joinBtn.textContent = "Đã tham gia";
   joinBtn.disabled = true;
   joinBtn.classList.remove("btn-success");
   joinBtn.classList.add("btn-secondary");
@@ -294,7 +294,7 @@ function updateAuthUI() {
       <div class="user-info">
         <div class="user-avatar">${currentUser.name.charAt(0)}</div>
         <span>${currentUser.name}</span>
-        <button class="btn btn-secondary" onclick="logout(); return false;">Logout</button>
+        <button class="btn btn-secondary" onclick="logout(); return false;">Đăng xuất</button>
       </div>
     `;
 
@@ -315,8 +315,8 @@ function updateAuthUI() {
   } else {
     authSection.innerHTML = `
       <div class="auth-buttons">
-        <a href="#" class="btn btn-secondary" onclick="showLoginModal(); return false;">Login</a>
-        <a href="#" class="btn btn-primary" onclick="showRegisterModal(); return false;">Register</a>
+        <a href="#" class="btn btn-secondary" onclick="showLoginModal(); return false;">Đăng nhập</a>
+        <a href="#" class="btn btn-primary" onclick="showRegisterModal(); return false;">Đăng ký</a>
       </div>
     `;
 
