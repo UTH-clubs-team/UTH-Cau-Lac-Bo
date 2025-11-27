@@ -4,7 +4,7 @@ require_once '../../config/database.php';
 header('Content-Type: application/json');
 
 if (!isset($_SESSION['user_id']) || ($_SESSION['user_role'] ?? '') !== 'admin') {
-    echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+    echo json_encode(['success' => false, 'message' => 'Không có quyền truy cập']);
     exit;
 }
 
@@ -30,7 +30,7 @@ try {
     }
 
     if ($method !== 'POST') {
-        echo json_encode(['success' => false, 'message' => 'Invalid method']);
+        echo json_encode(['success' => false, 'message' => 'Phương thức không hợp lệ']);
         exit;
     }
 
@@ -42,7 +42,7 @@ try {
         $leaderId = !empty($_POST['leader_id']) ? (int)$_POST['leader_id'] : null;
         $schedule = $_POST['schedule_meeting'] ?? '';
         if ($name === '') {
-            echo json_encode(['success' => false, 'message' => 'Name is required']);
+            echo json_encode(['success' => false, 'message' => 'Tên câu lạc bộ là bắt buộc']);
             exit;
         }
 
@@ -55,7 +55,7 @@ try {
             $ext = strtolower(pathinfo($origName, PATHINFO_EXTENSION));
             $allowed = ['jpg','jpeg','png','gif','webp'];
             if (!in_array($ext, $allowed)) {
-                echo json_encode(['success' => false, 'message' => 'Invalid image type']);
+                echo json_encode(['success' => false, 'message' => 'Loại hình ảnh không hợp lệ']);
                 exit;
             }
             $newName = uniqid('club_', true) . '.' . $ext;
@@ -79,7 +79,7 @@ try {
 
     if ($action === 'update') {
         $id = (int)($_POST['id'] ?? 0);
-        if ($id <= 0) { echo json_encode(['success' => false, 'message' => 'Invalid id']); exit; }
+        if ($id <= 0) { echo json_encode(['success' => false, 'message' => 'ID không hợp lệ']); exit; }
         $name = trim($_POST['name'] ?? '');
         $description = $_POST['description'] ?? '';
         $category = $_POST['category'] ?? '';
@@ -95,7 +95,7 @@ try {
             $ext = strtolower(pathinfo($origName, PATHINFO_EXTENSION));
             $allowed = ['jpg','jpeg','png','gif','webp'];
             if (!in_array($ext, $allowed)) {
-                echo json_encode(['success' => false, 'message' => 'Invalid image type']);
+                echo json_encode(['success' => false, 'message' => 'Loại hình ảnh không hợp lệ']);
                 exit;
             }
             $newName = uniqid('club_', true) . '.' . $ext;
@@ -125,7 +125,7 @@ try {
 
     if ($action === 'delete') {
         $id = (int)($_POST['id'] ?? 0);
-        if ($id <= 0) { echo json_encode(['success' => false, 'message' => 'Invalid id']); exit; }
+        if ($id <= 0) { echo json_encode(['success' => false, 'message' => 'ID không hợp lệ']); exit; }
         $old = $pdo->prepare('SELECT club_image FROM clubs WHERE id = ?');
         $old->execute([$id]);
         $oldPath = $old->fetchColumn();
@@ -141,9 +141,9 @@ try {
         exit;
     }
 
-    echo json_encode(['success' => false, 'message' => 'Unknown action']);
+    echo json_encode(['success' => false, 'message' => 'Hành động không hợp lệ']);
 } catch (Exception $e) {
-    echo json_encode(['success' => false, 'message' => 'Server error']);
+    echo json_encode(['success' => false, 'message' => 'Lỗi máy chủ']);
 }
 ?>
 

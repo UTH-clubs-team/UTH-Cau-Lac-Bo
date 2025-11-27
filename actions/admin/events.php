@@ -4,7 +4,7 @@ require_once '../../config/database.php';
 header('Content-Type: application/json');
 
 if (!isset($_SESSION['user_id']) || ($_SESSION['user_role'] ?? '') !== 'admin') {
-    echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+    echo json_encode(['success' => false, 'message' => 'Không có quyền truy cập']);
     exit;
 }
 
@@ -22,7 +22,7 @@ try {
     }
 
     if ($method !== 'POST') {
-        echo json_encode(['success' => false, 'message' => 'Invalid method']);
+        echo json_encode(['success' => false, 'message' => 'Phương thức không hợp lệ']);
         exit;
     }
 
@@ -33,7 +33,7 @@ try {
         $location = $_POST['location'] ?? '';
         $max = (int)($_POST['max_participants'] ?? 0);
         $description = $_POST['description'] ?? '';
-        if ($name === '' || $clubId <= 0) { echo json_encode(['success' => false, 'message' => 'Missing fields']); exit; }
+        if ($name === '' || $clubId <= 0) { echo json_encode(['success' => false, 'message' => 'Thiếu trường dữ liệu']); exit; }
         $eventImagePath = null;
         if (!empty($_FILES['event_image']['name'])) {
             $uploadDir = __DIR__ . '/../../uploads/events/';
@@ -54,7 +54,7 @@ try {
 
     if ($action === 'update') {
         $id = (int)($_POST['id'] ?? 0);
-        if ($id <= 0) { echo json_encode(['success' => false, 'message' => 'Invalid id']); exit; }
+        if ($id <= 0) { echo json_encode(['success' => false, 'message' => 'ID không hợp lệ']); exit; }
         $name = trim($_POST['name'] ?? '');
         $clubId = (int)($_POST['club_id'] ?? 0);
         $date = $_POST['date'] ?? '';
@@ -95,7 +95,7 @@ try {
 
     if ($action === 'delete') {
         $id = (int)($_POST['id'] ?? 0);
-        if ($id <= 0) { echo json_encode(['success' => false, 'message' => 'Invalid id']); exit; }
+        if ($id <= 0) { echo json_encode(['success' => false, 'message' => 'ID không hợp lệ']); exit; }
         // delete event image file if exists
         $old = $pdo->prepare('SELECT event_image FROM events WHERE id = ?');
         $old->execute([$id]);
@@ -110,10 +110,10 @@ try {
         exit;
     }
 
-    echo json_encode(['success' => false, 'message' => 'Unknown action']);
+    echo json_encode(['success' => false, 'message' => 'Hành động không hợp lệ']);
 } catch (Exception $e) {
     error_log('Events.php error: ' . $e->getMessage());
-    echo json_encode(['success' => false, 'message' => 'Server error: ' . $e->getMessage()]);
+    echo json_encode(['success' => false, 'message' => 'Lỗi máy chủ ' . $e->getMessage()]);
 }
 ?>
 

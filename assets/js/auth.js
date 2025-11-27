@@ -54,7 +54,7 @@ function checkSession() {
       }
     })
     .catch((error) => {
-      console.log("Session check failed:", error);
+      console.log("Kiểm tra phiên đăng nhập thất bại:", error);
       currentUser = null;
       updateAuthUI();
       return null;
@@ -92,11 +92,11 @@ function handleLogin(event) {
     body: formData,
   })
     .then((response) => {
-      console.log("Response status:", response.status);
+      console.log("Trạng thái phản hồi:", response.status);
       return response.json();
     })
     .then((data) => {
-      console.log("Login response:", data);
+      console.log("Phản hồi đăng nhập:", data);
       if (data.success) {
         currentUser = data.user;
         updateAuthUI();
@@ -114,7 +114,7 @@ function handleLogin(event) {
       }
     })
     .catch((error) => {
-      console.error("Login error:", error);
+      console.error("Lỗi đăng nhập:", error);
       showNotification("Đăng nhập thất bại!", "error");
     });
 }
@@ -129,12 +129,12 @@ function handleRegister(event) {
   ).value;
 
   if (!email.endsWith("@ut.edu.vn")) {
-    showNotification("Email phải có đuôi @ut.edu.vn!", "error");
+    showNotification("Email phải thuộc miền @ut.edu.vn!", "error");
     return;
   }
 
   if (password !== confirmPassword) {
-    showNotification("Mật khẩu xác nhận không khớp!", "error");
+    showNotification("Mật khẩu không khớp!", "error");
     return;
   }
 

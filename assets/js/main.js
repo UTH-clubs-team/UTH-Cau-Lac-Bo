@@ -9,7 +9,10 @@ function showSection(sectionName) {
     sectionName === "dashboard" &&
     (!currentUser || currentUser.role !== "admin")
   ) {
-    showNotification("Dashboard is for admin only", "error");
+    showNotification(
+      "Chỉ quản trị viên mới được phép truy cập Dashboard.",
+      "error"
+    );
     return;
   }
   // Hide all sections
@@ -67,7 +70,7 @@ function showSection(sectionName) {
 // Club functions
 function joinClub(clubId) {
   if (!currentUser) {
-    showNotification("Vui lòng đăng nhập để tham gia CLB!", "error");
+    showNotification("Vui lòng đăng nhập để tham gia câu lạc bộ!", "error");
     showLoginModal();
     return;
   }
@@ -82,7 +85,7 @@ function joinClub(clubId) {
     .then((data) => {
       if (data.success) {
         showNotification(
-          data.message || "Successfully joined the club!",
+          data.message || "Tham gia câu lạc bộ thành công!",
           "success"
         );
         // Update member badge on the card if present
@@ -97,14 +100,17 @@ function joinClub(clubId) {
           );
           if (card && data.member_count !== undefined) {
             const badge = card.querySelector(".badge");
-            if (badge) badge.textContent = `${data.member_count} Members`;
+            if (badge) badge.textContent = `${data.member_count} Thành viên`;
           }
         } catch (e) {}
       } else {
-        showNotification(data.message || "Failed to join club", "error");
+        showNotification(
+          data.message || "Tham gia câu lạc bộ thất bại",
+          "error"
+        );
       }
     })
-    .catch(() => showNotification("Failed to join club", "error"));
+    .catch(() => showNotification("Tham gia câu lạc bộ thất bại", "error"));
 }
 
 function filterClubs() {
@@ -171,7 +177,7 @@ function registerForEvent(eventId) {
             // Update button to show registered state
             const button = eventCard.querySelector("button.btn.btn-primary");
             if (button) {
-              button.textContent = "Already Registered";
+              button.textContent = "Đã đăng ký";
               button.className = "btn btn-secondary";
               button.disabled = true;
               button.removeAttribute("onclick");
@@ -196,7 +202,7 @@ function registerForEvent(eventId) {
             // Update button to show registered state
             const button = homeCard.querySelector("button.btn.btn-primary");
             if (button) {
-              button.textContent = "Already Registered";
+              button.textContent = "Đã đăng ký";
               button.className = "btn btn-secondary";
               button.disabled = true;
               button.removeAttribute("onclick");
@@ -270,12 +276,12 @@ window.onclick = function (event) {
 
 function joinClubFromDetails() {
   if (!currentUser) {
-    showNotification("Vui lòng đăng nhập để tham gia CLB!", "error");
+    showNotification("Vui lòng đăng nhập để tham gia câu lạc bộ!", "error");
     showLoginModal();
     return;
   }
 
-  showNotification("Tham gia CLB thành công!", "success");
+  showNotification("Tham gia câu lạc bộ thành công!", "success");
 
   // Update button text
   const joinBtn = document.getElementById("joinClubBtn");
@@ -372,10 +378,10 @@ function initializeDashboard() {
           initializeAdminEventListeners();
         }, 100);
 
-        console.log("Dashboard data loaded successfully");
+        console.log("Dữ liệu Dashboard đã được tải thành công");
       } catch (error) {
-        console.error("Error loading dashboard data:", error);
-        showNotification("Error loading dashboard data", "error");
+        console.error("Lỗi khi tải dữ liệu dashboard:", error);
+        showNotification("Lỗi khi tải dữ liệu dashboard", "error");
       }
     });
   } else if (currentUser) {

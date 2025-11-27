@@ -75,28 +75,28 @@
                 <textarea class="form-input" id="clubDescription" rows="3" required></textarea>
             </div>
             <div class="form-group">
-                <label class="form-label">Danh mục</label>
-                <input type="text" class="form-input" id="clubCategoryInput" placeholder="Nhập danh mục" required>
+                <label class="form-label">Thể loại</label>
+                <input type="text" class="form-input" id="clubCategoryInput" placeholder="Nhập thể loại" required>
             </div>
             <div class="form-group">
-                <label class="form-label">Trưởng CLB</label>
+                <label class="form-label">Trưởng nhóm</label>
                 <select class="form-input" id="clubLeader">
-                    <option value="">Chọn trưởng CLB (Không bắt buộc)</option>
+                    <option value="">Chọn trưởng nhóm (Tùy chọn)</option>
                 </select>
             </div>
             <div class="form-group">
                 <label class="form-label">Lịch họp</label>
-                <input type="text" class="form-input" id="clubSchedule" placeholder="Ví dụ: Thứ 2 hàng tuần 18h">
+                <input type="text" class="form-input" id="clubSchedule" placeholder="ví dụ: Mỗi thứ Hai lúc 6 giờ tối">
             </div>
             <div class="form-group">
-                <label class="form-label">Hoạt động (phân cách bằng dấu phẩy)</label>
-                <input type="text" class="form-input" id="clubActivitiesInput" placeholder="Ví dụ: Workshop, Mentoring, Thi đấu">
+                <label class="form-label">Hoạt động (phân tách bằng dấu phẩy)</label>
+                <input type="text" class="form-input" id="clubActivitiesInput" placeholder="ví dụ: Hội thảo, Hướng dẫn, Cuộc thi">
             </div>
             <div class="form-group">
-                <label class="form-label">Hình ảnh CLB</label>
+                <label class="form-label">Hình ảnh câu lạc bộ</label>
                 <input type="file" class="form-input" id="clubImageInput" accept="image/*">
             </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%;">Thêm CLB</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Thêm câu lạc bộ</button>
         </form>
     </div>
 </div>
@@ -135,10 +135,10 @@
                 <select class="form-input" id="memberDepartment" required>
                     <option value="">Chọn khoa</option>
                     <option value="Computer Science">Khoa học máy tính</option>
-                    <option value="Software Engineering">Công nghệ phần mềm</option>
+                    <option value="Software Engineering">Kỹ thuật phần mềm</option>
                     <option value="Information Technology">Công nghệ thông tin</option>
                     <option value="Data Science">Khoa học dữ liệu</option>
-                    <option value="Cybersecurity">An toàn thông tin</option>
+                    <option value="Cybersecurity">An ninh mạng</option>
                     <option value="Business Administration">Quản trị kinh doanh</option>
                     <option value="Mechanical Engineering">Kỹ thuật cơ khí</option>
                     <option value="Civil Engineering">Kỹ thuật xây dựng</option>
@@ -210,7 +210,7 @@
             <div class="form-group">
                 <label class="form-label">Câu lạc bộ</label>
                 <select class="form-input" id="addEventClub" required>
-                    <option value="">Chọn CLB</option>
+                    <option value="">Chọn câu lạc bộ</option>
                 </select>
             </div>
             <div class="form-group">
@@ -230,7 +230,7 @@
                 <textarea class="form-input" id="eventDescription" rows="3"></textarea>
             </div>
             <div class="form-group">
-                <label class="form-label">Hình ảnh sự kiện</label>
+                <label class="form-label">Ảnh sự kiện</label>
                 <input type="file" class="form-input" id="eventImageInput" accept="image/*">
             </div>
             <button type="submit" class="btn btn-primary" style="width: 100%;">Thêm sự kiện</button>
@@ -264,7 +264,7 @@
                     <option value="admin">Quản trị viên</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%;">Cập nhật</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Cập nhật người dùng</button>
         </form>
     </div>
 </div>
@@ -289,25 +289,25 @@
                 <input type="text" class="form-input" id="editClubCategoryInput" placeholder="Nhập danh mục" required>
             </div>
             <div class="form-group">
-                <label class="form-label">Trưởng CLB</label>
+                <label class="form-label">Trưởng câu lạc bộ</label>
                 <select class="form-input" id="editClubLeader">
-                    <option value="">Chọn trưởng CLB (Không bắt buộc)</option>
+                    <option value="">Chọn trưởng câu lạc bộ (Tùy chọn)</option>
                 </select>
             </div>
             <div class="form-group">
                 <label class="form-label">Lịch họp</label>
-                <input type="text" class="form-input" id="editClubSchedule" placeholder="Ví dụ: Thứ 2 hàng tuần 18h">
+                <input type="text" class="form-input" id="editClubSchedule" placeholder="Ví dụ: Mỗi thứ Hai lúc 6 giờ tối">
             </div>
             <div class="form-group">
-                <label class="form-label">Hoạt động (phân cách bằng dấu phẩy)</label>
-                <input type="text" class="form-input" id="editClubActivitiesInput" placeholder="Ví dụ: Workshop, Mentoring, Thi đấu">
+                <label class="form-label">Hoạt động (phân tách bằng dấu phẩy)</label>
+                <input type="text" class="form-input" id="editClubActivitiesInput" placeholder="Ví dụ: Hội thảo, Hướng dẫn, Cuộc thi">
             </div>
             <div class="form-group">
-                <label class="form-label">Hình ảnh CLB</label>
+                <label class="form-label">Ảnh câu lạc bộ</label>
                 <input type="file" class="form-input" id="editClubImageInput" accept="image/*">
                 <div id="editClubImagePreview" style="margin-top: .5rem;"></div>
             </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%;">Cập nhật</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Cập nhật câu lạc bộ</button>
         </form>
     </div>
 </div>
@@ -326,7 +326,7 @@
             <div class="form-group">
                 <label class="form-label">Câu lạc bộ</label>
                 <select class="form-input" id="editEventClub" required>
-                    <option value="">Chọn CLB</option>
+                    <option value="">Chọn câu lạc bộ</option>
                 </select>
             </div>
             <div class="form-group">
@@ -338,7 +338,7 @@
                 <input type="text" class="form-input" id="editEventLocation" required>
             </div>
             <div class="form-group">
-                <label class="form-label">Số lượng tối đa</label>
+                <label class="form-label">Số lượng tối đa người tham gia</label>
                 <input type="number" class="form-input" id="editEventMaxParticipants" min="1">
             </div>
             <div class="form-group">
@@ -346,11 +346,11 @@
                 <textarea class="form-input" id="editEventDescription" rows="3"></textarea>
             </div>
             <div class="form-group">
-                <label class="form-label">Hình ảnh sự kiện</label>
+                <label class="form-label">Ảnh sự kiện</label>
                 <input type="file" class="form-input" id="editEventImageInput" accept="image/*">
                 <div id="editEventImagePreview" style="margin-top: .5rem;"></div>
             </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%;">Cập nhật</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Cập nhật sự kiện</button>
         </form>
     </div>
 </div>
