@@ -4,16 +4,25 @@ let currentSection = "home";
 
 // Navigation
 function showSection(sectionName) {
-  // Prevent non-admin users from accessing dashboard
-  if (
-    sectionName === "dashboard" &&
-    (!currentUser || currentUser.role !== "admin")
-  ) {
-    showNotification(
-      "Chỉ quản trị viên mới được phép truy cập Dashboard.",
-      "error"
-    );
-    return;
+  if (sectionName === "dashboard") {
+    if (!currentUser) {
+      showNotification("Vui lòng đăng nhập để truy cập khu vực này.", "error");
+      if (typeof showLoginModal === "function") {
+        showLoginModal();
+      }
+      return;
+    }
+
+    const isAdmin = currentUser.role === "admin";
+    const isStudent = currentUser.role === "student";
+
+    if (!isAdmin && !isStudent) {
+      showNotification(
+        "Chức năng này không khả dụng cho tài khoản của bạn.",
+        "error"
+      );
+      return;
+    }
   }
   // Hide all sections
   document.querySelectorAll(".section").forEach((section) => {
@@ -66,6 +75,33 @@ function showSection(sectionName) {
     }, 200);
   }
 }
+
+function showStudentDashboard() {
+  if (!currentUser) {
+    showNotification("Vui lòng đăng nhập để xem CLB của bạn.", "error");
+    if (typeof showLoginModal === "function") {
+      showLoginModal();
+    }
+    return false;
+  }
+
+  if (currentUser.role !== "student") {
+    showNotification("Chức năng này chỉ dành cho sinh viên.", "error");
+    return false;
+  }
+
+  showSection("dashboard");
+
+  setTimeout(() => {
+    if (typeof loadUserClubs === "function") {
+      loadUserClubs();
+    }
+  }, 150);
+
+  return false;
+}
+
+window.showStudentDashboard = showStudentDashboard;
 
 // Club functions
 function joinClub(clubId) {
@@ -295,13 +331,24 @@ function updateAuthUI() {
   const navLinks = document.getElementById("navLinks");
 
   if (currentUser) {
-    authSection.innerHTML = `
+    let userInfoHtml = `
       <div class="user-info">
         <div class="user-avatar">${currentUser.name.charAt(0)}</div>
         <span>${currentUser.name}</span>
+    `;
+
+    if (currentUser.role === "student") {
+      userInfoHtml += `
+        <a href="#" class="btn btn-primary" onclick="showStudentDashboard(); return false;">CLB của tôi</a>
+      `;
+    }
+
+    userInfoHtml += `
         <button class="btn btn-secondary" onclick="logout(); return false;">Đăng xuất</button>
       </div>
     `;
+
+    authSection.innerHTML = userInfoHtml;
 
     // Add dashboard link only for admins; remove if not admin
     const existingDashboardLink = document.querySelector(
@@ -384,12 +431,27 @@ function initializeDashboard() {
       }
     });
   } else if (currentUser) {
-    // Non-admin users should not see any dashboard
-    document.getElementById("adminDashboard").style.display = "none";
+    // Show student dashboard for non-admin users
+    const adminDashboard = document.getElementById("adminDashboard");
+    if (adminDashboard) adminDashboard.style.display = "none";
+
     const studentDash = document.getElementById("studentDashboard");
-    if (studentDash) studentDash.style.display = "none";
-    // Redirect to home if somehow invoked
-    showSection("home");
+    if (studentDash) {
+      // Only display for students
+      if (currentUser.role === "student") {
+        studentDash.style.display = "block";
+        // Attach button listener (idempotent)
+        const btn = document.getElementById("btnMyClubs");
+        if (btn) {
+          btn.removeEventListener("click", loadUserClubs);
+          btn.addEventListener("click", loadUserClubs);
+        }
+        // Optionally auto-load clubs
+        // loadUserClubs();
+      } else {
+        studentDash.style.display = "none";
+      }
+    }
   }
 }
 
@@ -419,6 +481,74 @@ function initializeAdminEventListeners() {
         showAdminSection(sectionName);
       });
     }
+  });
+}
+
+// Load and render the current user's clubs (student view)
+function loadUserClubs() {
+  const statusEl = document.getElementById("myClubsStatus");
+  const listEl = document.getElementById("myClubsList");
+
+  if (!currentUser) {
+    showNotification("Vui lòng đăng nhập để xem các CLB của bạn.", "error");
+    return;
+  }
+
+  if (statusEl) statusEl.textContent = "Đang tải...";
+  if (listEl) listEl.innerHTML = "";
+
+  fetch("actions/get_user_clubs.php")
+    .then((res) => res.json())
+    .then((data) => {
+      if (statusEl) statusEl.textContent = "";
+      if (!data || !data.success) {
+        if (statusEl) statusEl.textContent = "Không có CLB hoặc lỗi khi tải.";
+        return;
+      }
+      renderMyClubs(data.clubs || []);
+    })
+    .catch((err) => {
+      if (statusEl) statusEl.textContent = "Lỗi khi tải dữ liệu.";
+      console.error("Lỗi loadUserClubs:", err);
+    });
+}
+
+function renderMyClubs(clubs) {
+  const listEl = document.getElementById("myClubsList");
+  if (!listEl) return;
+
+  if (!clubs || clubs.length === 0) {
+    listEl.innerHTML = `<p>Bạn chưa tham gia câu lạc bộ nào.</p>`;
+    return;
+  }
+
+  // Clear
+  listEl.innerHTML = "";
+
+  clubs.forEach((club) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.style.marginBottom = "1rem";
+    card.innerHTML = `
+      <div style="display:flex; gap:1rem; align-items:flex-start;">
+        <img src="${club.club_image || "uploads/clubs/default.jpg"}" alt="${
+      club.name
+    }" style="width:100px; height:100px; object-fit:cover; border-radius:6px;"/>
+        <div>
+          <h3 class="card-title">${club.name}</h3>
+          <p style="margin: .25rem 0; color:#6b7280;">${
+            club.description || ""
+          }</p>
+          <p style="margin: .25rem 0; font-size:0.9rem; color:#374151;">Ngày tham gia: ${
+            club.joined_date || "N/A"
+          }</p>
+          <p style="margin: .25rem 0; font-size:0.9rem; color:#374151;">Trạng thái: ${
+            club.member_status || ""
+          }</p>
+        </div>
+      </div>
+    `;
+    listEl.appendChild(card);
   });
 }
 
@@ -487,7 +617,8 @@ window.addEventListener("popstate", function (event) {
   // Guard: prevent non-admins from navigating to dashboard via browser controls
   if (
     sectionName === "dashboard" &&
-    (!currentUser || currentUser.role !== "admin")
+    (!currentUser ||
+      (currentUser.role !== "admin" && currentUser.role !== "student"))
   ) {
     sectionName = "home";
   }

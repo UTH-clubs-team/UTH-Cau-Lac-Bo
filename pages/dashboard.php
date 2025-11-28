@@ -110,5 +110,17 @@
 
 
         </div>
+        <!-- Student Dashboard -->
+        <div id="studentDashboard" style="display: none; margin-top: 1.5rem;">
+            <h2>Trang sinh viên</h2>
+            <p>Chào mừng sinh viên! Bạn có thể xem các câu lạc bộ bạn đang tham gia bên dưới.</p>
+
+            <div style="margin: 1rem 0; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                <button id="btnMyClubs" class="btn btn-primary">Xem CLB của tôi</button>
+                <span id="myClubsStatus" style="color: #6b7280;"></span>
+            </div>
+
+            <div id="myClubsList" class="cards-grid"></div>
+        </div>
     </div>
 </div>
