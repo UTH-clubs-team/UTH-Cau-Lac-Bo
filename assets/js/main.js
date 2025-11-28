@@ -245,8 +245,7 @@ function filterEvents() {
 function showNotification(message, type = "success") {
   const notification = document.getElementById("notification");
   notification.textContent = message;
-  notification.className = `notification ${type === "error" ? "error" : ""}`;
-  notification.classList.add("show");
+  notification.className = `notification ${type} show`;
 
   setTimeout(() => {
     notification.classList.remove("show");
